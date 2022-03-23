@@ -85,8 +85,7 @@ function addInteractions() {
             let popUps = document.getElementsByClassName('mapboxgl-popup');
             /** Check if there is already a popup on the map and if so, remove it */
             if (popUps[0]) popUps[0].remove();
-            popup.setLngLat(coordinates).setHTML('<h3>' + name + '</h3>').addTo(map);
-            createPopUp(coordinates, locationName);
+            popup.setLngLat(coordinates).setHTML('<h3>' + locationName + '</h3>').addTo(map);
         });
 
         // Remove popup when mouse leaves list item
