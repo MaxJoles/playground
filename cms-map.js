@@ -26,13 +26,14 @@ const popup = new mapboxgl.Popup({
 
 //When map is loaded initialize with data
 map.on('load', (e) => {
+    map.addSource("cms-locations", {
+        "type": "geojson",
+        "data": getLocations()
+    });
     map.addLayer({
         "id": "locations",
         "type": "symbol",
-        "source": {
-            "type": "geojson",
-            "data": getLocations()
-        },
+        "source": "cms-locations",
         "layout": {
             "icon-image": "turning-circle",
             "icon-allow-overlap": true,
@@ -56,7 +57,6 @@ function getLocations() {
     mapItems.forEach(item => {
         let locationLat = item.querySelector("#locationLatitude").value;
         let locationLong = item.querySelector("#locationLongitude").value;
-        let locationName = item.querySelector(".listing-name").innerText;
         let coordinates = [locationLong, locationLat];
         let locationID = item.querySelector("#locationID").value;
         let geoData = {
