@@ -2,6 +2,46 @@
 const mapList = document.querySelector("[max-js=map-list]");
 const mapItems = Array.from(mapList.childNodes);
 
+
+
+// Initialize empty Mapbox map in #Map container
+mapboxgl.accessToken =
+    "pk.eyJ1IjoibWFqbzQ2NDAiLCJhIjoiY2tkZjA5MWE2MWQ0bzMycGVlM3g3c2RxdSJ9.bqf5ebGVRpslYVqfCGHqjw";
+
+
+// Initialize map and load in #map wrapper
+let map = new mapboxgl.Map({
+    container: "map",
+    style: "mapbox://styles/majo4640/ckdf03vg800581il2pp1eq3eq",
+    center: [-69.8009033, 44.3335332],
+    zoom: 6,
+});
+
+//When map is loaded initialize with data
+map.on('load', function (e) {
+    map.addLayer({
+        "id": "locations",
+        "type": "symbol",
+        /* Add a GeoJSON source containing place coordinates and information. */
+        // "source": {
+        //     "type": "geojson",
+        //     "data": mapLocations
+        // },
+        "layout": {
+            "icon-image": "turning-circle",
+            "icon-allow-overlap": true,
+            "icon-size": 0.5
+        }
+    });
+});
+
+
+
+
+
+
+
+
 // create empty locations object formatted as GeoJson
 let mapLocations = {
     type: "FeatureCollection",
@@ -35,52 +75,20 @@ function getGeoData() {
                 "id": locationID,
             }
         }
-            mapLocations.features.push(geoData);
+        mapLocations.features.push(geoData);
     });
 }
 
 
 getGeoData();
 
-// define mapping function to be invoked later
-function addMapPoints() {
-    /* Add the data to your map as a layer */
-    map.addLayer({
-        "id": "locations",
-        "type": "symbol",
-        /* Add a GeoJSON source containing place coordinates and information. */
-        "source": {
-            "type": "geojson",
-            "data": mapLocations
-        },
-        "layout": {
-            "icon-image": "turning-circle",
-            "icon-allow-overlap": true,
-            "icon-size": 0.5
-        }
-    });
-};
 
 
 
-// Initialize map
-mapboxgl.accessToken =
-    "pk.eyJ1IjoibWFqbzQ2NDAiLCJhIjoiY2tkZjA5MWE2MWQ0bzMycGVlM3g3c2RxdSJ9.bqf5ebGVRpslYVqfCGHqjw";
 
 
-// Initialize map and load in #map wrapper
-let map = new mapboxgl.Map({
-    container: "map",
-    style: "mapbox://styles/majo4640/ckdf03vg800581il2pp1eq3eq",
-    center: [-69.8009033, 44.3335332],
-    zoom: 6,
-});
 
 
-//When map is loaded initialize with data
-map.on('load', function (e) {
-    addMapPoints();
-});
 
 
 let popup = new mapboxgl.Popup({
