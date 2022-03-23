@@ -10,12 +10,19 @@ mapboxgl.accessToken =
 
 
 // Initialize map and load in #map wrapper
-let map = new mapboxgl.Map({
+const map = new mapboxgl.Map({
     container: "map",
     style: "mapbox://styles/majo4640/ckdf03vg800581il2pp1eq3eq",
     center: [-69.8009033, 44.3335332],
     zoom: 6,
 });
+
+// Initialize popup object that will be added to map later
+const popup = new mapboxgl.Popup({
+    closeButton: false,
+    closeOnClick: false
+});
+
 
 //When map is loaded initialize with data
 map.on('load', function (e) {
@@ -32,6 +39,7 @@ map.on('load', function (e) {
             "icon-size": 0.5
         }
     });
+    addInteractions();
 });
 
 
@@ -65,29 +73,36 @@ function getLocations() {
     return mapLocations
 }
 
+function addInteractions() {
+    mapItems.forEach(item => {
+        let locationLat = item.querySelector("#locationLatitude").value;
+        let locationLong = item.querySelector("#locationLongitude").value;
+        let locationName = item.querySelector(".listing-name").innerText;
+        let coordinates = [locationLong, locationLat];
 
+        // Add popup when mouse enters list item
+        item.addEventListener('mouseenter', () => {
+            let popUps = document.getElementsByClassName('mapboxgl-popup');
+            /** Check if there is already a popup on the map and if so, remove it */
+            if (popUps[0]) popUps[0].remove();
+            popup.setLngLat(coordinates).setHTML('<h3>' + name + '</h3>').addTo(map);
+            createPopUp(coordinates, locationName);
+        });
 
+        // Remove popup when mouse leaves list item
+        item.addEventListener('mouseleave', () => {
+            popup.remove();
+        });
+    })
 
-let popup = new mapboxgl.Popup({
-    closeButton: false,
-    closeOnClick: false
-});
-
-function createPopUp(coordinates, name) {
-    var popUps = document.getElementsByClassName('mapboxgl-popup');
-    /** Check if there is already a popup on the map and if so, remove it */
-    if (popUps[0]) popUps[0].remove();
-    popup.setLngLat(coordinates).setHTML('<h3>' + name + '</h3>').addTo(map);
 }
 
-function removePopUp() {
-    popup.remove();
-}
+
+
 
 
 
 // Mutation listener for filtered list
-console.log(mapList);
 const config = { childList: true };
 
 const callback = function (mutationsList, observer) {
