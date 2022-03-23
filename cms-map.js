@@ -110,10 +110,8 @@ const listObserver = (mutationsList, observer) => {
     for (const mutation of mutationsList) {
         if (mutation.type === 'childList') {
             console.log('A child node has been added or removed.');
-            map.getSource('cms-locations').setData({
-                "type": "geojson",
-                "data": getLocations()
-            });
+            let newData = getLocations();
+            map.getSource('cms-locations').setData(newData);
         }
     }
 };
