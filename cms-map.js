@@ -1,7 +1,5 @@
-// Grab list and items
+// Grab collection list wrapper
 const mapList = document.querySelector("[max-js=map-list]");
-
-
 
 
 // Initialize empty Mapbox map in #Map container
@@ -45,16 +43,15 @@ map.on('load', (e) => {
 });
 
 
-// Get locaiton data form collection list
+// Get locaiton data form collection list and format as GEO JSON
 function getLocations() {
     let mapItems = Array.from(mapList.childNodes);
-    // create empty locations object formatted as GeoJson
     let mapLocations = {
         type: "FeatureCollection",
         features: [],
     };
 
-    // For each collection item, grab hidden fields and convert to geojson property
+    // For each collection item, grab hidden fields and convert to geojson property object
     mapItems.forEach(item => {
         let locationLat = item.querySelector("#locationLatitude").value;
         let locationLong = item.querySelector("#locationLongitude").value;
@@ -77,6 +74,8 @@ function getLocations() {
     return mapLocations
 }
 
+
+// Gets collection list items and adds mapbox interactivity
 function addInteractions() {
     let mapItems = Array.from(mapList.childNodes);
     mapItems.forEach(item => {
@@ -88,7 +87,6 @@ function addInteractions() {
         // Add popup when mouse enters list item
         item.addEventListener('mouseenter', () => {
             let popUps = document.getElementsByClassName('mapboxgl-popup');
-            /** Check if there is already a popup on the map and if so, remove it */
             if (popUps[0]) popUps[0].remove();
             popup.setLngLat(coordinates).setHTML('<h3>' + locationName + '</h3>').addTo(map);
         });
@@ -103,17 +101,13 @@ function addInteractions() {
 
 
 
-
-// Mutation listener for filtered list
+// Listens for changes to collection list data caused by Finsweet filter
 const config = { childList: true };
-
 const listObserver = (mutationsList, observer) => {
     // Use traditional 'for loops' for IE 11
     for (const mutation of mutationsList) {
         if (mutation.type === 'childList') {
-            console.log('A child node has been added or removed.');
             let newData = getLocations();
-            console.log(newData);
             map.getSource('cms-locations').setData(newData);
         }
     }
