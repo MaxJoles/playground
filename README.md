@@ -2,4 +2,5 @@
 Experimental Projects and Learnings
 
 
-https://maxjoles.github.io/playground/
+
+<script src="https://maxjoles.github.io/playground/file-name-here"></script>
