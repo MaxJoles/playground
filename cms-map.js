@@ -1,6 +1,6 @@
 // Grab list and items
 const mapList = document.querySelector("[max-js=map-list]");
-const mapItems = Array.from(mapList.childNodes);
+
 
 
 
@@ -47,6 +47,7 @@ map.on('load', (e) => {
 
 // Get locaiton data form collection list
 function getLocations() {
+    let mapItems = Array.from(mapList.childNodes);
     // create empty locations object formatted as GeoJson
     let mapLocations = {
         type: "FeatureCollection",
@@ -77,6 +78,7 @@ function getLocations() {
 }
 
 function addInteractions() {
+    let mapItems = Array.from(mapList.childNodes);
     mapItems.forEach(item => {
         let locationLat = item.querySelector("#locationLatitude").value;
         let locationLong = item.querySelector("#locationLongitude").value;
