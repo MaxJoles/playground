@@ -30,7 +30,6 @@ map.on('load', (e) => {
         "id": "locations",
         "type": "symbol",
         "source": {
-            "id": "cms-locations",
             "type": "geojson",
             "data": getLocations()
         },
