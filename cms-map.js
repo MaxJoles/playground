@@ -24,23 +24,46 @@ const popup = new mapboxgl.Popup({
 });
 
 
+function loadMapData() {
+    // Checks if exists, deletes, and re-adds with fresh data
+    if (map.getLayer("locations")) {
+        map.removeLayer("locations");
+        map.addLayer({
+            "id": "locations",
+            "type": "symbol",
+            "source": {
+                "type": "geojson",
+                "data": getLocations()
+            },
+            "layout": {
+                "icon-image": "turning-circle",
+                "icon-allow-overlap": true,
+                "icon-size": 0.5
+            }
+        });
+    }
+    // If doesn't exists, creates layer with fresh data
+    else {
+        map.addLayer({
+            "id": "locations",
+            "type": "symbol",
+            "source": {
+                "type": "geojson",
+                "data": getLocations()
+            },
+            "layout": {
+                "icon-image": "turning-circle",
+                "icon-allow-overlap": true,
+                "icon-size": 0.5
+            }
+        });
+    }
+
+}
+
 //When map is loaded initialize with data
 map.on('load', (e) => {
-    map.addSource("cms-locations", {
-        "type": "geojson",
-        "data": getLocations()
-    });
-    map.addLayer({
-        "id": "locations",
-        "type": "symbol",
-        "source": "cms-locations",
-        "layout": {
-            "icon-image": "turning-circle",
-            "icon-allow-overlap": true,
-            "icon-size": 0.5
-        }
-    });
-
+    loadMapData();
     addInteractions();
 });
 
@@ -99,17 +122,6 @@ function addInteractions() {
 
 }
 
-function updateLocations() {
-    map.removeSource("cms-locations");
-    map.addSource("cms-locations", {
-        "type": "geojson",
-        "data": getLocations()
-    })
-
-}
-
-
-
 
 
 
@@ -121,7 +133,8 @@ const listObserver = (mutationsList, observer) => {
     for (const mutation of mutationsList) {
         if (mutation.type === 'childList') {
             console.log('A child node has been added or removed.');
-            updateLocations();
+            loadMapData();
+
         }
     }
 };
