@@ -22,11 +22,10 @@ map.on('load', function (e) {
     map.addLayer({
         "id": "locations",
         "type": "symbol",
-        /* Add a GeoJSON source containing place coordinates and information. */
-        // "source": {
-        //     "type": "geojson",
-        //     "data": mapLocations
-        // },
+        "source": {
+            "type": "geojson",
+            "data": getLocations()
+        },
         "layout": {
             "icon-image": "turning-circle",
             "icon-allow-overlap": true,
@@ -36,35 +35,19 @@ map.on('load', function (e) {
 });
 
 
-
-
-
-
-
-
-// create empty locations object formatted as GeoJson
-let mapLocations = {
-    type: "FeatureCollection",
-    features: [],
-};
-
-
 // For each item, grab hidden fields and convert to geojson proerty
-function getGeoData() {
-    mapItems.forEach(function (item) {
+function getLocations() {
+    // create empty locations object formatted as GeoJson
+    let mapLocations = {
+        type: "FeatureCollection",
+        features: [],
+    };
+    mapItems.forEach(item => {
         let locationLat = item.querySelector("#locationLatitude").value;
         let locationLong = item.querySelector("#locationLongitude").value;
         let locationName = item.querySelector(".listing-name").innerText;
         let coordinates = [locationLong, locationLat];
         let locationID = item.querySelector("#locationID").value;
-        item.addEventListener('mouseenter', function () {
-            createPopUp(coordinates, locationName);
-        });
-
-        item.addEventListener('mouseleave', function () {
-            removePopUp();
-        });
-
         let geoData = {
             "type": "Feature",
             "geometry": {
@@ -76,17 +59,10 @@ function getGeoData() {
             }
         }
         mapLocations.features.push(geoData);
+        // Return data as object that we'll pass to Mapbox
+        return mapLocations
     });
 }
-
-
-getGeoData();
-
-
-
-
-
-
 
 
 
