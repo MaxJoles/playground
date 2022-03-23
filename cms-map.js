@@ -60,6 +60,7 @@ function getLocations() {
         }
         mapLocations.features.push(geoData);
         // Return data as object that we'll pass to Mapbox
+        console.log(mapLocations);
         return mapLocations
     });
 }
