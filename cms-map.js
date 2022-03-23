@@ -29,7 +29,7 @@ map.on('load', (e) => {
     map.addLayer({
         "id": "locations",
         "type": "symbol",
-        "source": {
+        "cms-locations": {
             "type": "geojson",
             "data": getLocations()
         },
