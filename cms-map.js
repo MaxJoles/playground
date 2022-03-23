@@ -25,11 +25,12 @@ const popup = new mapboxgl.Popup({
 
 
 //When map is loaded initialize with data
-map.on('load', function (e) {
+map.on('load', (e) => {
     map.addLayer({
         "id": "locations",
         "type": "symbol",
         "source": {
+            "id": "cms-locations",
             "type": "geojson",
             "data": getLocations()
         },
@@ -43,13 +44,15 @@ map.on('load', function (e) {
 });
 
 
-// For each item, grab hidden fields and convert to geojson proerty
+// Get locaiton data form collection list
 function getLocations() {
     // create empty locations object formatted as GeoJson
     let mapLocations = {
         type: "FeatureCollection",
         features: [],
     };
+
+    // For each collection item, grab hidden fields and convert to geojson property
     mapItems.forEach(item => {
         let locationLat = item.querySelector("#locationLatitude").value;
         let locationLong = item.querySelector("#locationLongitude").value;
@@ -69,7 +72,7 @@ function getLocations() {
         mapLocations.features.push(geoData);
 
     });
-    // Return data as object that we'll call in mapbox layer object
+    // Return data as object that's passed to Mapbox layer object
     return mapLocations
 }
 
@@ -96,6 +99,15 @@ function addInteractions() {
 
 }
 
+function updateLocations() {
+    map.removeSource("cms-locations");
+    map.addSource("cms-locations", {
+        "type": "geojson",
+        "data": getLocations()
+    })
+
+}
+
 
 
 
@@ -104,14 +116,14 @@ function addInteractions() {
 // Mutation listener for filtered list
 const config = { childList: true };
 
-const callback = function (mutationsList, observer) {
+const listObserver = (mutationsList, observer) => {
     // Use traditional 'for loops' for IE 11
     for (const mutation of mutationsList) {
         if (mutation.type === 'childList') {
             console.log('A child node has been added or removed.');
-            addMapPoints();
+            updateLocations();
         }
     }
 };
-const observer = new MutationObserver(callback);
+const observer = new MutationObserver(listObserver);
 observer.observe(mapList, config);
