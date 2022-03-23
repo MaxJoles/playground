@@ -29,7 +29,7 @@ const popup = new mapboxgl.Popup({
 map.on('load', (e) => {
     map.addSource("cms-locations", {
         "type": "geojson",
-        "data": getLocations()
+        "data": getLocations
     });
     map.addLayer({
         "id": "locations",
@@ -46,7 +46,7 @@ map.on('load', (e) => {
 
 
 // Get locaiton data form collection list
-function getLocations() {
+const getLocations = () => {
     // create empty locations object formatted as GeoJson
     let mapLocations = {
         type: "FeatureCollection",
@@ -110,7 +110,10 @@ const listObserver = (mutationsList, observer) => {
     for (const mutation of mutationsList) {
         if (mutation.type === 'childList') {
             console.log('A child node has been added or removed.');
-            map.getSource('cms-locations').setData(getLocations);
+            map.getSource('cms-locations').setData({
+                "type": "geojson",
+                "data": getLocations
+            });
         }
     }
 };
