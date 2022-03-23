@@ -29,16 +29,16 @@ map.on('load', (e) => {
     map.addLayer({
         "id": "locations",
         "type": "symbol",
+        "source": {
+            "type": "geojson",
+            "data": getLocations()
+        },
         "layout": {
             "icon-image": "turning-circle",
             "icon-allow-overlap": true,
             "icon-size": 0.5
         }
     });
-    map.addSource("cms-locations", {
-        "type": "geojson",
-        "data": getLocations()
-    })
 
     addInteractions();
 });
