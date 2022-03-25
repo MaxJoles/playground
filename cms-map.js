@@ -91,26 +91,33 @@ function addInteractions() {
             popup.setLngLat(coordinates).setHTML('<h3>' + locationName + '</h3>').addTo(map);
         });
 
+        item.addEventListener('click', () => {
+            map.flyTo({
+                center: coordinates,
+                zoom: 15
+            });
+        })
+
+
         // Remove popup when mouse leaves list item
         item.addEventListener('mouseleave', () => {
             popup.remove();
         });
-    })
 
-}
+    }
 
 
 
 // Listens for changes to collection list data caused by Finsweet filter
 const config = { childList: true };
-const listObserver = (mutationsList, observer) => {
-    // Use traditional 'for loops' for IE 11
-    for (const mutation of mutationsList) {
-        if (mutation.type === 'childList') {
-            let newData = getLocations();
-            map.getSource('cms-locations').setData(newData);
+    const listObserver = (mutationsList, observer) => {
+        // Use traditional 'for loops' for IE 11
+        for (const mutation of mutationsList) {
+            if (mutation.type === 'childList') {
+                let newData = getLocations();
+                map.getSource('cms-locations').setData(newData);
+            }
         }
-    }
-};
-const observer = new MutationObserver(listObserver);
-observer.observe(mapList, config);
+    };
+    const observer = new MutationObserver(listObserver);
+    observer.observe(mapList, config);
