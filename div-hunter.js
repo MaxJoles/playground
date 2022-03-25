@@ -7,7 +7,7 @@ function divHunter() {
     const styleSheets = document.styleSheets;
     for (const key in styleSheets) {
         let styleSheet = styleSheets[key];
-        if (styleSheets.href) {
+        if (styleSheet.href) {
             console.log(styleSheet.href);
             let styeSheetUrl = new URL(styleSheet.href);
             let styleSheetDomain = styeSheetUrl.hostname;
