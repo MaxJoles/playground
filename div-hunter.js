@@ -10,7 +10,7 @@ for (const key in styleSheets) {
         let styeSheetUrl = new URL (styleSheet.href);
         let styleSheetDomain = styeSheetUrl.hostname;
 
-        if (hostname == "assets-global.website-files.com" || hostname == "uploads-ssl.webflow.com" ) {
+        if (styleSheetDomain == "assets-global.website-files.com" || styleSheetDomain == "uploads-ssl.webflow.com" ) {
             console.log("Is Webflow Sitemap")
             console.log(styeSheetUrl);
         }
@@ -21,8 +21,8 @@ for (const key in styleSheets) {
     }
 }
 
-hunterForm.addEventListener("submit", (e) => {
-    let siteLink = hunterLink.ariaValueMax;
+hunterForm.addEventListener("submit", () => {
+    let siteLink = hunterLink.value;
     console.log(siteLink);
     console.log("Form Submitted");
 
