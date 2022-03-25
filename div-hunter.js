@@ -13,8 +13,10 @@ function divHunter() {
             let styleSheetDomain = styeSheetUrl.hostname;
             if (styleSheetDomain == "assets-global.website-files.com" || styleSheetDomain == "uploads-ssl.webflow.com") {
                 console.log("Is Webflow Sitemap")
-                console.log(styeSheetUrl);
-                console.log(styleSheet.cssRules)
+                let response = await fetch(styeSheetUrl);
+                console.log(response);
+                let css = await response.text();
+                console.log(css);
             }
         }
     }
