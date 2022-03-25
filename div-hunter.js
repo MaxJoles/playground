@@ -3,13 +3,10 @@ const hunterOutput = document.getElementById("hunter-result");
 const hunterLink = document.getElementById("hunter-link");
 const styleSheets = document.styleSheets;
 
-styleSheets.array.forEach(element => {
-    console.log(element);
-});
 
-for (const key in object) {
-    if (Object.hasOwnProperty.call(object, key)) {
-        let styleSheet = object[key];
+for (const key in styleSheets) {
+    if (styleSheets.hasOwnProperty.call(styleSheets, key)) {
+        let styleSheet = styleSheets[key];
         console.log(styleSheet);
         
         
