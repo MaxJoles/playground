@@ -6,7 +6,8 @@ const hunterLink = document.getElementById("hunter-link");
 function divHunter() {
     const styleSheets = document.styleSheets;
     for (const key in styleSheets) {
-            let styleSheet = styleSheets[key];
+        let styleSheet = styleSheets[key];
+        if (styleSheets.href) {
             console.log(styleSheet.href);
             let styeSheetUrl = new URL(styleSheet.href);
             let styleSheetDomain = styeSheetUrl.hostname;
@@ -15,6 +16,7 @@ function divHunter() {
                 console.log(styeSheetUrl);
                 console.log(styleSheet.cssRules)
             }
+        }
     }
 }
 
